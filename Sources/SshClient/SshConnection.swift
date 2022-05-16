@@ -13,7 +13,7 @@ import NIOSSH
 /// The execute function returns a ``RemoteProcess`` object.
 public final class SshConnection {
     private let sshClient: SshClient    // Keep sshClient.eventLoopGroup alive
-    private let channel: Channel
+    public let channel: Channel
 
     init(sshClient: SshClient, channel: Channel) {
         self.sshClient = sshClient
