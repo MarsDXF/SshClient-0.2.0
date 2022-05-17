@@ -78,8 +78,17 @@ public final class SshClient {
             eventHandler.requestAuthenticationResult(promise)
             return promise.futureResult
         }.get()
-
-        return SshConnection(sshClient: self, channel: channel)
+        
+        let exitCodePromise = channel.eventLoop.makePromise(of: Int.self)
+        let sshConnection = SshConnection(sshClient: self, channel: channel)
+        let t = RemoteProcess(sshConnection: sshConnection,
+                              channel: channel,
+                              exitCodeFuture: exitCodePromise.futureResult)
+        for await line in t.stdOutLines {
+            print(line)
+        }
+        
+        return sshConnection
     }
 
     /// Deinitialize
