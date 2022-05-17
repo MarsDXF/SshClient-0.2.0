@@ -79,12 +79,9 @@ public final class SshClient {
             return promise.futureResult
         }.get()
         
-        let exitCodePromise = channel.eventLoop.makePromise(of: Int.self)
         let sshConnection = SshConnection(sshClient: self, channel: channel)
-        let t = RemoteProcess(sshConnection: sshConnection,
-                              channel: channel,
-                              exitCodeFuture: exitCodePromise.futureResult)
-        for await line in t.stdOutLines {
+        let t = RemoteProcessSingleChannelOutputLines(channel: channel, outputChannel: .stdOut)
+        for await line in t {
             print(line)
         }
         
