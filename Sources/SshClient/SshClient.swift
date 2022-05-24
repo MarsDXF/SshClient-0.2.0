@@ -79,13 +79,7 @@ public final class SshClient {
             return promise.futureResult
         }.get()
         
-        let sshConnection = SshConnection(sshClient: self, channel: channel)
-        let t = RemoteProcessSingleChannelOutputLines(channel: channel, outputChannel: .stdOut)
-        for await line in t {
-            print(line)
-        }
-        
-        return sshConnection
+        return SshConnection(sshClient: self, channel: channel) 
     }
 
     /// Deinitialize
