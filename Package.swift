@@ -7,6 +7,7 @@ let package = Package(
     name: "SshClient",
     platforms: [
         .macOS(.v10_15),
+        .iOS(.v15),
     ],
     products: [
         .library(
@@ -25,7 +26,7 @@ let package = Package(
                 .product(name: "NIOSSH", package: "swift-nio-ssh"),
             ]
         ),
-        .executableTarget(
+        .target(//.executableTarget(
             name: "ssh-execute",
             dependencies: [
                 "SshClient",
